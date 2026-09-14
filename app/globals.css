@@ -1,0 +1,243 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   YUKTI design tokens — derived from the logo's navy & metallic gold
+   ------------------------------------------------------------------ */
+@theme {
+  --color-navy: #0a1f3f;
+  --color-navy-dark: #061530;
+  --color-navy-deep: #040d20;
+  --color-navy-light: #17407a;
+  --color-gold: #c8962e;
+  --color-gold-light: #e3b85c;
+  --color-gold-dark: #8a6114;
+  --color-off-white: #f6f7f9;
+  --color-surface: #eef1f5;
+  --color-line: #dde2ea;
+  --color-ink: #0e1a2e;
+  --color-ink-soft: #4a5568;
+  --color-mist: #b9c4d6;
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --breakpoint-3xl: 1920px;
+}
+
+:root {
+  --navy: var(--color-navy);
+  --navy-dark: var(--color-navy-dark);
+  --navy-light: var(--color-navy-light);
+  --gold: var(--color-gold);
+  --gold-light: var(--color-gold-light);
+  --white: #ffffff;
+  --off-white: var(--color-off-white);
+  --text-primary: var(--color-ink);
+  --text-secondary: var(--color-ink-soft);
+  --border: var(--color-line);
+  --surface: var(--color-surface);
+  --header-h: 76px;
+  --gutter: clamp(1.25rem, 4.5vw, 7rem);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+  }
+
+  body {
+    background: #ffffff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-gold-light);
+    color: var(--color-navy-deep);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Layout utilities
+   ------------------------------------------------------------------ */
+/* Full-width content area with fluid side gutters. Text blocks set their own reading measure. */
+@utility container-site {
+  width: 100%;
+  padding-inline: var(--gutter);
+}
+
+@utility container-narrow {
+  width: 100%;
+  max-width: 980px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+@utility section-y {
+  padding-block: clamp(4.5rem, 3rem + 6vw, 8.5rem);
+}
+
+@utility bg-blueprint {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+@utility bg-blueprint-light {
+  background-image:
+    linear-gradient(rgb(10 31 63 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(10 31 63 / 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ------------------------------------------------------------------
+   Typography scale (fluid)
+   ------------------------------------------------------------------ */
+@utility type-display {
+  font-size: clamp(2.6rem, 1.4rem + 4.6vw, 5.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+@utility type-h1 {
+  font-size: clamp(2.3rem, 1.5rem + 3.2vw, 4.25rem);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+@utility type-h2 {
+  font-size: clamp(1.9rem, 1.35rem + 2.2vw, 3.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+@utility type-h3 {
+  font-size: clamp(1.2rem, 1.05rem + 0.55vw, 1.55rem);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+}
+
+@utility type-lead {
+  font-size: clamp(1.05rem, 0.98rem + 0.35vw, 1.25rem);
+  line-height: 1.65;
+}
+
+@utility type-eyebrow {
+  font-size: 0.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* Animated gold underline for text links */
+@utility link-underline {
+  background-image: linear-gradient(var(--color-gold), var(--color-gold));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 300ms var(--ease-premium);
+
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Motion — scroll reveal & technical line drawing
+   Content stays visible when JavaScript is unavailable (.js is set inline).
+   ------------------------------------------------------------------ */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity 600ms var(--ease-premium),
+    transform 600ms var(--ease-premium);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+.draw-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-line 1.8s var(--ease-premium) forwards;
+  animation-delay: var(--d, 0s);
+}
+
+.fade-node {
+  opacity: 0;
+  animation: fade-node 600ms ease forwards;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fade-node {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Hide native scrollbar on touch sliders while keeping them scrollable */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .draw-line {
+    stroke-dasharray: none;
+  }
+}
